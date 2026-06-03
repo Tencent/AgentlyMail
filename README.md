@@ -1,8 +1,10 @@
 # Agently Mail Skills
 
-为 AI Agent 提供邮件操作能力的 Skill，支持登录授权、读取邮件、搜索邮件、发送邮件、回复、转发、移动到已删除、上传和下载附件。
+Agently Mail 是 QQ 邮箱团队为 Agent 打造的专属邮箱服务，与个人邮箱隔离，原生适配 Agent，助力你安全、高效地使用 Agent 收发邮件。
 
-更多指引访问官网地址：[agent.qq.com](https://agent.qq.com)。
+Agently Mail 支持微信登录授权、读取邮件、搜索邮件、发送邮件、回复、转发、移动到已删除、上传和下载附件。
+
+Agently Mail 官网 [agent.qq.com](https://agent.qq.com)。
 
 ## 安装
 
