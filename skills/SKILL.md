@@ -122,13 +122,13 @@ agently-cli +me
 搜索翻页时**必须保留原搜索条件**再追加 `--cursor`，否则丢失搜索上下文。
 
 ### +send
-`--to`（可重复）、`--subject`、`--body`、`--cc`（可重复）、`--bcc`（可重复）、`--body-format` (html)、`--attachment ./file.pdf`（可重复，最多 3 个，仅支持相对路径）、`--confirmation-token`
+`--to`（可重复）、`--subject`、`--body` 或 `--body-file ./body.html`、`--cc`（可重复）、`--bcc`（可重复）、`--attachment ./file.pdf`（可重复，最多 3 个，仅支持相对路径）、`--confirmation-token`
 
 ### +reply
-`--id`、`--body`、`--body-format` 、`--reply-all`、`--cc`（可重复）、`--bcc`（可重复）、`--attachment ./file.pdf`、`--confirmation-token`
+`--id`、`--body` 或 `--body-file ./body.html`、`--reply-all`、`--cc`（可重复）、`--bcc`（可重复）、`--attachment ./file.pdf`、`--confirmation-token`
 
 ### +forward
-`--id`、`--to`（可重复）、`--body`、`--body-format`、`--cc`（可重复）、`--bcc`（可重复）、`--include-attachments`、`--attachment ./file.pdf`、`--confirmation-token`
+`--id`、`--to`（可重复）、`--body` 或 `--body-file ./body.html`、`--cc`（可重复）、`--bcc`（可重复）、`--include-attachments`、`--attachment ./file.pdf`、`--confirmation-token`
 
 
 ### +trash
@@ -205,6 +205,7 @@ agently-cli message +read --id msg_xxx
 
 1. 告知用户版本号
 2. 提议执行：`npm install -g @tencent-qqmail/agently-cli`
-3. 提醒用户更新后**重启 AI Agent** 以加载最新 Skills
+3. 提议执行：`npx skills add Tencent/AgentlyMail -g -y`
+4. 提醒用户更新后**重启 AI Agent** 以加载最新 Skills
 
 **规则**：不要静默忽略更新提示。
