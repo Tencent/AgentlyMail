@@ -19,7 +19,7 @@ npm install -g @tencent-qqmail/agently-cli
 **第 2 步 - 安装/更新 skill**
 
 ```bash
-npx skills add Tencent/AgentlyMail -g -y
+npx skills add https://agent.qq.com --skill -g -y
 ```
 
 **第 3 步 - OAuth授权**
@@ -69,6 +69,7 @@ agently-cli +me
 | 回复邮件 | `agently-cli message +reply --id msg_xxx` | 回复邮件，支持 reply-all、cc/bcc、HTML、追加附件 |
 | 转发邮件 | `agently-cli message +forward --id msg_xxx` | 转发给新收件人，支持 cc/bcc、HTML、携带原附件和追加附件 |
 | 移到已删除 | `agently-cli message +trash --id msg_xxx` | soft delete，30 天后真正删除 |
+| 永久删除 | `agently-cli message +delete --id msg_xxx` / `--all` | 从垃圾箱永久删除单封或全部邮件，释放邮箱空间 |
 | 下载附件 | `agently-cli attachment +download --msg msg_xxx --att att_xxx` | 保存普通附件到本地；超大附件直接返回 download_url 给用户 |
 
 ## 邮件正文规范
@@ -77,7 +78,7 @@ agently-cli +me
 
 ## 两阶段确认（写操作）
 
-发送 / 回复 / 转发 / 移到回收站均需两阶段确认。原因：写操作不可撤销，必须让用户亲自确认后再执行。
+发送 / 回复 / 转发 / 移到回收站 / 永久删除均需两阶段确认。其中发送 / 回复 / 转发用户明确授权后，可传递 `--confirmed` 免除确认。
 
 ```
 第 N 轮 assistant：
@@ -125,16 +126,19 @@ agently-cli +me
 `--msg-format`（`full`/`event`，默认 `full`）
 
 ### +send
-`--to`（可重复）、`--subject`、`--body` 或 `--body-file ./body.html`、`--cc`（可重复）、`--bcc`（可重复）、`--attachment ./file.pdf`（可重复，最多 3 个，仅支持相对路径）、`--confirmation-token`
+`--to`（可重复）、`--subject`、`--body` 或 `--body-file ./body.html`（相对路径）、`--cc`（可重复）、`--bcc`（可重复）、`--attachment ./file.pdf`（可重复，相对路径）、`--confirmation-token`、`--confirmed`（免两阶段确认，仅在用户明确授权时传递）
 
 ### +reply
-`--id`、`--body` 或 `--body-file ./body.html`、`--reply-all`、`--cc`（可重复）、`--bcc`（可重复）、`--attachment ./file.pdf`、`--confirmation-token`
+`--id`、`--body` 或 `--body-file ./body.html`、`--reply-all`、`--cc`（可重复）、`--bcc`（可重复）、`--attachment ./file.pdf`、`--confirmation-token`、`--confirmed`（免两阶段确认，仅在用户明确授权时传递）
 
 ### +forward
-`--id`、`--to`（可重复）、`--body` 或 `--body-file ./body.html`、`--cc`（可重复）、`--bcc`（可重复）、`--include-attachments`、`--attachment ./file.pdf`、`--confirmation-token`
+`--id`、`--to`（可重复）、`--body` 或 `--body-file ./body.html`、`--cc`（可重复）、`--bcc`（可重复）、`--include-attachments`、`--attachment ./file.pdf`、`--confirmation-token`、`--confirmed`（免两阶段确认，仅在用户明确授权时传递）
 
 ### +trash
 `--id`、`--confirmation-token`。已在 trash 内的邮件不能再 +trash。
+
+### +delete
+`--id`（永久删除 trash 中的单封邮件）或 `--all`（永久删除 trash 中的全部邮件）。删除不可恢复，会释放邮箱空间。
 
 ### attachment +download
 `--msg`、`--att`、`--output`（保存目录的相对路径，如 `./downloads`，不是文件名；默认当前目录）。只支持 `attachment_id` 为 `att_xxx` 的普通附件；不支持 `download_url`。文件名由服务端决定，已存在时自动加后缀，读 `data.saved_to` 拿实际路径。
@@ -223,7 +227,7 @@ agently-cli message +read --id msg_xxx
 
 1. 告知用户版本号
 2. 提议执行：`npm install -g @tencent-qqmail/agently-cli`
-3. 提议执行：`npx skills add Tencent/AgentlyMail -g -y`
+3. 提议执行：`npx skills add https://agent.qq.com --skill -g -y`
 4. 提醒用户更新后**重启 AI Agent** 以加载最新 Skills
 
 **规则**：不要静默忽略更新提示。
